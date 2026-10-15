@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthy Food | Delivery para todos</title>
+  <style>
+    :root {
+      --green: #0d3b2e;
+      --green-2: #176b4b;
+      --lime: #a8cf45;
+      --cream: #fbfaf5;
+      --orange: #f59b38;
+      --text: #18372d;
+      --muted: #69766f;
+      --line: #e5e9e2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--cream);
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    .topbar {
+      background: var(--green);
+      color: white;
+      padding: 16px max(4%, calc((100% - 1320px)/2));
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      justify-content: space-between;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: max-content; }
+    .brand-icon { font-size: 35px; color: var(--lime); }
+    .brand-name { font-size: 25px; font-weight: 800; letter-spacing: -.7px; }
+    .brand-name span { color: var(--lime); }
+    .brand small { display: block; color: #d6e2d9; font-size: 11px; margin-top: 2px; }
+    nav { display: flex; gap: 25px; font-size: 14px; }
+    nav a:hover { color: var(--lime); }
+    .top-actions { display: flex; gap: 12px; align-items: center; }
+    .location, .login {
+      border: 1px solid #477363;
+      border-radius: 24px;
+      color: white;
+      background: transparent;
+      padding: 10px 14px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .cart { border: 0; background: var(--lime); color: var(--green); border-radius: 50%; width: 42px; height: 42px; font-size: 19px; cursor: pointer; }
+    main { max-width: 1320px; margin: 0 auto; padding: 22px 24px 0; }
+    .hero {
+      min-height: 275px;
+      overflow: hidden;
+      border-radius: 18px;
+      background:
+        linear-gradient(90deg, rgba(8,48,36,.98) 0%, rgba(8,48,36,.91) 38%, rgba(8,48,36,.10) 100%),
+        url("https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1600&q=85") center 48%/cover;
+      display: flex;
+      align-items: center;
+      padding: 38px 5%;
+      color: white;
+    }
+    .hero-content { max-width: 560px; }
+    .eyebrow { text-transform: uppercase; font-size: 12px; font-weight: 800; letter-spacing: 1.7px; color: var(--lime); }
+    h1 { font-size: clamp(32px, 4vw, 48px); line-height: 1.08; margin: 13px 0; letter-spacing: -1.4px; }
+    h1 em { color: var(--lime); font-style: normal; }
+    .hero p { color: #e0ebe4; line-height: 1.6; max-width: 440px; margin: 0 0 20px; }
+    .search { display: flex; background: white; border-radius: 12px; padding: 5px; max-width: 520px; }
+    .search input { border: 0; outline: 0; padding: 12px; min-width: 0; flex: 1; border-radius: 8px; }
+    .search button { border: 0; border-radius: 9px; padding: 0 22px; color: white; background: var(--green-2); font-weight: 700; cursor: pointer; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin: 27px 0 14px; }
+    .section-heading h2 { margin: 0; font-size: 22px; }
+    .section-heading p { color: var(--muted); margin: 6px 0 0; font-size: 14px; }
+    .clear-link { color: var(--green-2); border: 0; background: none; cursor: pointer; font-weight: 700; }
+    .restriction-filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 27px; }
+    .filter-chip {
+      border: 1px solid var(--line); border-radius: 30px; padding: 11px 15px;
+      background: white; color: var(--text); cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: .2s;
+    }
+    .filter-chip:hover, .filter-chip.active { background: var(--green-2); color: white; border-color: var(--green-2); }
+    .filter-chip .emoji { font-size: 18px; }
+    .content-layout { display: grid; grid-template-columns: 235px minmax(0, 1fr); gap: 22px; align-items: start; }
+    aside { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+    aside h3 { margin: 0 0 20px; font-size: 18px; }
+    .filter-group { border-bottom: 1px solid var(--line); padding: 0 0 17px; margin-bottom: 17px; }
+    .filter-group:last-of-type { border: 0; }
+    .filter-group h4 { margin: 0 0 12px; font-size: 14px; }
+    .check { display: flex; align-items: center; gap: 9px; margin: 10px 0; color: #53645b; font-size: 13px; cursor: pointer; }
+    .check input { accent-color: var(--green-2); width: 16px; height: 16px; }
+    .outline-button { width: 100%; border: 1px solid var(--green-2); color: var(--green-2); background: white; border-radius: 9px; padding: 10px; cursor: pointer; font-weight: 700; }
+    .results-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .results-top h2 { font-size: 22px; margin: 0; }
+    .results-top span { color: var(--muted); font-size: 13px; }
+    .food-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; }
+    .food-card { background: white; border: 1px solid var(--line); border-radius: 13px; overflow: hidden; box-shadow: 0 4px 14px rgba(20,50,35,.04); display: flex; flex-direction: column; min-width: 0; }
+    .food-image { height: 150px; position: relative; background: #e9eee8; }
+    .food-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .heart { position: absolute; right: 10px; top: 10px; width: 34px; height: 34px; border: 0; border-radius: 50%; background: white; color: #254c3c; cursor: pointer; font-size: 18px; }
+    .food-info { padding: 14px; display: flex; flex-direction: column; flex: 1; }
+    .food-info h3 { margin: 0 0 5px; font-size: 16px; }
+    .cuisine { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+    .tag { background: #f0f6e8; color: #42652b; border-radius: 5px; padding: 5px 7px; font-size: 10px; font-weight: 700; }
+    .tag.orange { background: #fff2e2; color: #995d17; }
+    .details { display: flex; flex-wrap: wrap; gap: 8px 12px; color: #5f6d65; font-size: 11px; margin-top: auto; }
+    .price { font-size: 14px; font-weight: 800; color: var(--text); margin: 12px 0; }
+    .menu-button { display: block; text-align: center; background: var(--green-2); color: white; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; }
+    .menu-button:hover { background: var(--green); }
+    .empty { grid-column: 1 / -1; background: white; padding: 35px; border-radius: 12px; text-align: center; color: var(--muted); }
+    .benefits { margin: 32px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); background: #edf3e9; border-radius: 14px 14px 0 0; padding: 24px 15px; gap: 15px; }
+    .benefit { display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .benefit-icon { font-size: 25px; }
+    .benefit strong { display: block; font-size: 13px; margin-bottom: 4px; }
+    .benefit small { color: var(--muted); font-size: 11px; }
+    footer { background: var(--green); color: white; padding: 25px max(4%, calc((100% - 1320px)/2)); display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    footer .brand-name { font-size: 21px; }
+    footer p { font-size: 11px; color: #cfddd4; margin: 5px 0 0; }
+    .footer-links { display: flex; gap: 18px; font-size: 12px; flex-wrap: wrap; }
+    @media (max-width: 1050px) {
+      nav { gap: 13px; }
+      .topbar { gap: 15px; }
+      .login { display: none; }
+      .food-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 760px) {
+      .topbar { flex-wrap: wrap; padding: 14px 18px; }
+      nav { order: 3; width: 100%; overflow-x: auto; padding: 5px 0; }
+      .location { display: none; }
+      main { padding: 15px 14px 0; }
+      .hero { padding: 28px 22px; min-height: 310px; background-position: center; }
+      .hero p { max-width: 330px; }
+      .content-layout { grid-template-columns: 1fr; }
+      aside { order: 2; }
+      .food-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .food-image { height: 120px; }
+      .food-info { padding: 10px; }
+      .food-info h3 { font-size: 14px; }
+      .tag { font-size: 9px; }
+      .benefits { grid-template-columns: repeat(2, 1fr); }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 430px) {
+      .brand-name { font-size: 21px; }
+      .food-grid { grid-template-columns: 1fr; }
+      .food-image { height: 185px; }
+      .search button { padding: 0 14px; }
+      .section-heading h2, .results-top h2 { font-size: 19px; }
+      .benefits { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Healthy Food início">
+      <div class="brand-icon">❧</div>
+      <div><div class="brand-name">Healthy <span>Food</span></div><small>Comida boa, sem restrições</small></div>
+    </a>
+    <nav aria-label="Navegação principal">
+      <a href="#">Início</a><a href="#restaurantes">Estabelecimentos Comerciais</a><a href="#filtros">Categorias</a><a href="#sobre">Sobre nós</a>
+    </nav>
+    <div class="top-actions">
+      <button class="location" type="button">⌖ Sua localização⌄</button>
+      <button class="login" type="button">♙ Entrar / Cadastrar</button>
+      <button class="cart" type="button" aria-label="Carrinho">🛒</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">Delivery especializado</div>
+        <h1>Mais sabor para<br>todas as <em>restrições!</em></h1>
+        <p>Encontre pratos deliciosos com informações claras para escolher o que combina com a sua restrição alimentar.</p>
+        <form class="search" id="searchForm">
+          <input id="searchInput" type="search" placeholder="Busque pratos, restaurantes ou ingredientes..." aria-label="Buscar pratos ou restaurantes">
+          <button type="submit">Buscar</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="filtros">
+      <div class="section-heading">
+        <div><h2>O que você precisa evitar?</h2><p>Selecione uma ou mais opções para filtrar os resultados.</p></div>
+        <button class="clear-link" id="clearAll" type="button">Limpar filtros ↗</button>
+      </div>
+      <div class="restriction-filters">
+        <button class="filter-chip active" data-restriction="all" type="button"><span class="emoji">🍽️</span> Todas as opções</button>
+        <button class="filter-chip" data-restriction="Sem glúten" type="button"><span class="emoji">🌾</span> Sem glúten</button>
+        <button class="filter-chip" data-restriction="Sem lactose" type="button"><span class="emoji">🥛</span> Sem lactose</button>
+        <button class="filter-chip" data-restriction="Sem açúcar" type="button"><span class="emoji">🍓</span> Sem açúcar</button>
+        <button class="filter-chip" data-restriction="Vegano" type="button"><span class="emoji">🌱</span> Vegano</button>
+        <button class="filter-chip" data-restriction="Vegetariano" type="button"><span class="emoji">🥑</span> Vegetariano</button>
+        <button class="filter-chip" data-restriction="Sem ovo" type="button"><span class="emoji">🥚</span> Sem ovo</button>
+        <button class="filter-chip" data-restriction="Sem amendoim" type="button"><span class="emoji">⚠️</span> Sem amendoim</button>
+        <button class="filter-chip" data-restriction="Halal" type="button"><span class="emoji">🌙</span> Halal</button>
+      </div>
+    </section>
+
+    <div class="content-layout" id="restaurantes">
+      <aside>
+        <h3>Refinar busca</h3>
+        <div class="filter-group">
+          <h4>Tipo de cozinha</h4>
+          <label class="check"><input type="checkbox" class="cuisine-filter" value="Brasileira"> Brasileira</label>
+          <label class="check"><input type="checkbox" class="cuisine-filter" value="Italiana"> Italiana</label>
+          <label class="check"><input type="checkbox" class="cuisine-filter" value="Asiática"> Asiática</label>
+          <label class="check"><input type="checkbox" class="cuisine-filter" value="Saudável"> Saudável</label>
+          <label class="check"><input type="checkbox" class="cuisine-filter" value="Lanches"> Lanches</label>
+        </div>
+        <div class="filter-group">
+          <h4>Preço máximo</h4>
+          <label class="check"><input type="radio" name="price" value="20"> Até R$ 20</label>
+          <label class="check"><input type="radio" name="price" value="40"> Até R$ 40</label>
+          <label class="check"><input type="radio" name="price" value="60"> Até R$ 60</label>
+          <label class="check"><input type="radio" name="price" value="999"> Qualquer preço</label>
+        </div>
+        <div class="filter-group">
+          <h4>Pedido inclusivo</h4>
+          <label class="check"><input type="checkbox" id="freeDelivery"> Entrega grátis</label>
+          <label class="check"><input type="checkbox" id="highRated"> Nota 4,7 ou mais</label>
+        </div>
+        <button class="outline-button" id="clearSide" type="button">Limpar filtros</button>
+      </aside>
+
+      <section>
+        <div class="results-top">
+          <div><h2>Restaurantes em destaque</h2><span id="resultCount">8 opções para você</span></div>
+          <span>Ordenar: <select id="sortBy" aria-label="Ordenar resultados" style="border:1px solid #dfe6df;border-radius:8px;padding:8px;background:white;color:#244638"><option value="featured">Recomendados</option><option value="price">Menor preço</option><option value="rating">Melhor avaliação</option></select></span>
+        </div>
+        <div class="food-grid" id="foodGrid">
+          <article class="food-card" data-name="All Natura bowl frango salada" data-cuisine="Saudável" data-price="28.90" data-rating="4.8" data-delivery="1" data-tags="Sem glúten,Sem lactose,Vegetariano,Sem ovo,Sem amendoim">
+            <div class="food-image"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=80" alt="Bowl colorido com folhas, legumes e grãos"><button class="heart" aria-label="Favoritar Verde Vida" type="button">♡</button></div>
+            <div class="food-info"><h3>All Natura</h3><div class="cuisine">Cozinha saudável</div><div class="tags"><span class="tag">🌾 Sem glúten</span><span class="tag">🥛 Sem lactose</span><span class="tag">🌱 Vegetariano</span></div><div class="details"><span>★ 4,8 (320)</span><span>◷ 25–40 min</span><span>🚲 Entrega grátis</span></div><div class="price">R$ 28,90</div><a class="menu-button" href="#contato">Ver cardápio</a></div>
+          </article>
+          <article class="food-card" data-name="Bella Fit massa tomate manjericao" data-cuisine="Italiana" data-price="32.00" data-rating="4.6" data-delivery="0" data-tags="Vegetariano,Sem ovo">
+            <div class="food-image"><img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=700&q=80" alt="Prato de massa com tomate e manjericão"><button class="heart" aria-label="Favoritar Bella Italia" type="button">♡</button></div>
+            <div class="food-info"><h3>Bella Fit</h3><div class="cuisine">Cozinha italiana</div><div class="tags"><span class="tag">🌱 Vegetariano</span><span class="tag orange">🥚 Sem ovo*</span></div><div class="details"><span>★ 4,6 (240)</span><span>◷ 35–50 min</span></div><div class="price">R$ 32,00</div><a class="menu-button" href="#contato">Ver cardápio</a></div>
+          </article>
+          <article class="food-card" data-name="Matsuri Concept vegetais arroz" data-cuisine="Asiática" data-price="39.90" data-rating="4.7" data-delivery="1" data-tags="Sem lactose,Sem açúcar,Sem amendoim,Vegano">
+            <div class="food-image"><img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=700&q=80" alt="Seleção de sushi e rolinhos em prato escuro"><button class="heart" aria-label="Favoritar Sushi da Terra" type="button">♡</button></div>
+            <div class="food-info"><h3>Matsuri Concept</h3><div class="cuisine">Cozinha asiática</div><div class="tags"><span class="tag">🥛 Sem lactose</span><span class="tag">🌱 Vegano</span><span class="tag">⚠️ Sem amendoim</span></div><div class="details"><span>★ 4,7 (410)</span><span>◷ 30–45 min</span><span>🚲 Entrega grátis</span></div><div class="price">R$ 39,90</div><a class="menu-button" href="#contato">Ver cardápio</a></div>
+          </article>
+          <article class="food-card" data-name="Smash It hamburguer lanche" data-cuisine="Lanches" data-price="26.50" data-rating="4.5" data-delivery="0" data-tags="Sem lactose,Sem amendoim">
+            <div class="food-image"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=80" alt="Hambúrguer com alface, tomate e pão"><button class="heart" aria-label="Favoritar Burger Fit" type="button">♡</button></div>
+            <div class="food-info"><h3>Smash It</h3><div class="cuisine">Lanches</div><div class="tags"><span class="tag">🥛 Sem lactose*</span><span class="tag">⚠️ Sem amendoim</span></div><div class="details"><span>★ 4,5 (180)</span><span>◷ 25–40 min</span></div><div class="price">R$ 26,50</div><a class="menu-button" href="#contato">Ver cardápio</a></div>
+          </article>
+          <article class="food-card" data-name="Genevitta arroz feijao carne" data-cuisine="Brasileira" data-price="24.90" data-rating="4.4" data-delivery="1" data-tags="Sem lactose,Sem amendoim">
+            <div class="food-image"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=700&q=80" alt="Refeição brasileira com arroz, legumes e proteína"><button class="heart" aria-label="Favoritar Sabor do Brasil" type="button">♡</button></div>
+            <div class="food-info"><h3>Genevitta</h3><div class="cuisine">Cozinha brasileira</div><div class="tags"><span class="tag">🥛 Sem lactose</span><span class="tag">⚠️ Sem amendoim</span></div><div class="details"><span>★ 4,4 (150)</span><span>◷ 30–45 min</span><span>🚲 Entrega grátis</span></div><div class="price">R$ 24,90</div><a class="menu-button" href="#contato">Ver cardápio</a></div>
+          </article>
+          <article class="food-card" data-name="Vaca Louca Vegan salada bowl legumes" data-cuisine="Saudável" data-price="22.00" data-rating="4.9" data-delivery="1" data-tags="Sem glúten,Sem lactose,Vegano,Vegetariano,Sem ovo,Sem amendoim">
+            <div class="food-image"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=80" alt="Salada fresca com folhas e legumes coloridos"><button class="heart" aria-label="Favoritar Salada e Cia" type="button">♡</button></div>
+            <div class="food-info"><h3>Vaca Louca &amp; Vegan</h3><div class="cuisine">Cozinha saudável</div><div class="tags"><span class="tag">🌾 Sem glúten</span><span class="tag">🥛 Sem lactose</span><span class="tag">🌱 Vegano</span></div><div class="details"><span>★ 4,9 (280)</span><span>◷ 20–35 min</span><span>🚲 Entrega grátis</span></div><div class="price">R$ 22,00</div><a class="menu-button" href="#contato">Ver cardápio</a></div>
+          </article>
+          <article class="food-card" data-name="Doce Equilibrio sobremesa frutas" data-cuisine="Saudável" data-price="15.90" data-rating="4.7" data-delivery="0" data-tags="Sem glúten,Sem lactose,Sem açúcar,Vegetariano">
+            <div class="food-image"><img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=700&q=80" alt="Sobremesa em copo com frutas e creme"><button class="heart" aria-label="Favoritar Doce Equilíbrio" type="button">♡</button></div>
+            <div class="food-info"><h3>Doce Equilíbrio</h3><div class="cuisine">Sobremesas</div><div class="tags"><span class="tag">🌾 Sem glúten</span><span class="tag">🥛 Sem lactose</span><span class="tag">🍓 Sem açúcar</span></div><div class="details"><span>★ 4,7 (120)</span><span>◷ 20–30 min</span></div><div class="price">R$ 15,90</div><a class="menu-button" href="#contato">Ver cardápio</a></div>
+          </article>
+          <article class="food-card" data-name="Sabores do Oriente falafel bowl arabe" data-cuisine="Saudável" data-price="34.90" data-rating="4.6" data-delivery="1" data-tags="Vegano,Vegetariano,Sem lactose,Sem ovo,Halal">
+            <div class="food-image"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=80" alt="Bowl de vegetais, grãos e bolinhos de falafel"><button class="heart" aria-label="Favoritar Sabores do Oriente" type="button">♡</button></div>
+            <div class="food-info"><h3>Sabores do Oriente</h3><div class="cuisine">Culinária árabe</div><div class="tags"><span class="tag">🌱 Vegano</span><span class="tag">🌙 Halal</span><span class="tag">🥛 Sem lactose</span></div><div class="details"><span>★ 4,6 (95)</span><span>◷ 30–50 min</span><span>🚲 Entrega grátis</span></div><div class="price">R$ 34,90</div><a class="menu-button" href="#contato">Ver cardápio</a></div>
+          </article>
+        </div>
+        <p style="font-size:12px;color:#69766f;margin-top:14px">*Exemplos demonstrativos. Confirme sempre os ingredientes, o risco de contaminação cruzada e a preparação diretamente com o estabelecimento.</p>
+      </section>
+    </div>
+
+    <section class="benefits" id="sobre">
+      <div class="benefit"><span class="benefit-icon">🛡️</span><div><strong>Informação transparente</strong><small>Mais clareza na hora de escolher.</small></div></div>
+      <div class="benefit"><span class="benefit-icon">🛵</span><div><strong>Praticidade na entrega</strong><small>Peça sem sair de casa.</small></div></div>
+      <div class="benefit"><span class="benefit-icon">💚</span><div><strong>Mais bem-estar</strong><small>Opções para diferentes necessidades.</small></div></div>
+      <div class="benefit"><span class="benefit-icon">🌱</span><div><strong>Comida para todos</strong><small>Mais inclusão à mesa.</small></div></div>
+    </section>
+  </main>
+
+  <footer id="contato">
+    <div class="brand"><div class="brand-icon">❧</div><div><div class="brand-name">Healthy <span>Food</span></div><p>Comida boa, sem restrições</p></div></div>
+    <div class="footer-links"><a href="#">Leonardo Gomes</a><a href="#restaurantes">Luiz Fernando</a><a href="#filtros">Rafaela Alves</a><a href="#sobre">Vinícius Mota</a><a href="mailto:contato@pratolivre.com">Weedny Ody</a></div>
+    <p>© 2026 Prato Livre</p>
+  </footer>
+
+  <script>
+    const chips = [...document.querySelectorAll('.filter-chip')];
+    const cards = [...document.querySelectorAll('.food-card')];
+    const searchInput = document.getElementById('searchInput');
+    const count = document.getElementById('resultCount');
+    const activeRestrictions = new Set();
+    const selectedCuisines = new Set();
+
+    function updateCards() {
+      const query = searchInput.value.trim().toLocaleLowerCase('pt-BR');
+      const maxPrice = document.querySelector('input[name="price"]:checked')?.value;
+      const freeDelivery = document.getElementById('freeDelivery').checked;
+      const highRated = document.getElementById('highRated').checked;
+      let visible = [];
+
+      cards.forEach(card => {
+        const tags = card.dataset.tags.split(',');
+        const matchesRestriction = [...activeRestrictions].every(item => tags.includes(item));
+        const matchesCuisine = selectedCuisines.size === 0 || selectedCuisines.has(card.dataset.cuisine);
+        const matchesQuery = (card.dataset.name + ' ' + card.dataset.cuisine + ' ' + tags.join(' ')).toLocaleLowerCase('pt-BR').includes(query);
+        const matchesPrice = !maxPrice || Number(card.dataset.price) <= Number(maxPrice);
+        const matchesDelivery = !freeDelivery || card.dataset.delivery === '1';
+        const matchesRating = !highRated || Number(card.dataset.rating) >= 4.7;
+        const show = matchesRestriction && matchesCuisine && matchesQuery && matchesPrice && matchesDelivery && matchesRating;
+        card.hidden = !show;
+        if (show) visible.push(card);
+      });
+
+      const sort = document.getElementById('sortBy').value;
+      visible.sort((a, b) => {
+        if (sort === 'price') return Number(a.dataset.price) - Number(b.dataset.price);
+        if (sort === 'rating') return Number(b.dataset.rating) - Number(a.dataset.rating);
+        return cards.indexOf(a) - cards.indexOf(b);
+      });
+      const grid = document.getElementById('foodGrid');
+      visible.forEach(card => grid.appendChild(card));
+      let empty = document.getElementById('emptyMessage');
+      if (visible.length === 0 && !empty) {
+        empty = document.createElement('div');
+        empty.id = 'emptyMessage';
+        empty.className = 'empty';
+        empty.textContent = 'Não encontramos opções com esses filtros. Tente selecionar menos restrições.';
+        grid.appendChild(empty);
+      } else if (visible.length > 0 && empty) empty.remove();
+      count.textContent = `${visible.length} ${visible.length === 1 ? 'opção encontrada' : 'opções encontradas'}`;
+    }
+
+    chips.forEach(chip => chip.addEventListener('click', () => {
+      const restriction = chip.dataset.restriction;
+      if (restriction === 'all') {
+        activeRestrictions.clear();
+      } else if (activeRestrictions.has(restriction)) {
+        activeRestrictions.delete(restriction);
+      } else {
+        activeRestrictions.add(restriction);
+      }
+      chips.forEach(item => {
+        item.classList.toggle('active', item.dataset.restriction === 'all' ? activeRestrictions.size === 0 : activeRestrictions.has(item.dataset.restriction));
+      });
+      updateCards();
+    }));
+
+    document.querySelectorAll('.cuisine-filter').forEach(input => input.addEventListener('change', () => {
+      input.checked ? selectedCuisines.add(input.value) : selectedCuisines.delete(input.value);
+      updateCards();
+    }));
+    document.querySelectorAll('input[name="price"], #freeDelivery, #highRated').forEach(input => input.addEventListener('change', updateCards));
+    document.getElementById('sortBy').addEventListener('change', updateCards);
+    document.getElementById('searchForm').addEventListener('submit', event => { event.preventDefault(); updateCards(); });
+    searchInput.addEventListener('input', updateCards);
+
+    function clearFilters() {
+      activeRestrictions.clear();
+      selectedCuisines.clear();
+      chips.forEach(chip => chip.classList.toggle('active', chip.dataset.restriction === 'all'));
+      document.querySelectorAll('.cuisine-filter').forEach(input => input.checked = false);
+      document.querySelectorAll('input[name="price"]').forEach(input => input.checked = false);
+      document.getElementById('freeDelivery').checked = false;
+      document.getElementById('highRated').checked = false;
+      searchInput.value = '';
+      document.getElementById('sortBy').value = 'featured';
+      updateCards();
+    }
+    document.getElementById('clearAll').addEventListener('click', clearFilters);
+    document.getElementById('clearSide').addEventListener('click', clearFilters);
+
+    document.querySelectorAll('.heart').forEach(button => button.addEventListener('click', () => {
+      button.textContent = button.textContent === '♡' ? '♥' : '♡';
+      button.style.color = button.textContent === '♥' ? '#d94a45' : '#254c3c';
+    }));
+    updateCards();
+  </script>
+</body>
+</html>
